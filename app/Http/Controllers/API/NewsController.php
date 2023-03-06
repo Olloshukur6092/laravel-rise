@@ -3,16 +3,25 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController;
+use App\Http\Resources\NewsResource;
+use App\Repository\Interfaces\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 
 class NewsController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // this newsRepository Interface
+    protected $newsRepository;
+    public function __construct(NewsRepositoryInterface $newsRepositoryInterface)
+    {
+        $this->newsRepository = $newsRepositoryInterface;
+    }
+
     public function index()
     {
-        //
+        $news = NewsResource::collection($this->newsRepository->indexNews());
+        return response()->json([
+            'news' => $news
+        ]);
     }
 
     /**

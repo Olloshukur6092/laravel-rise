@@ -11,22 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends BaseController
 {
-    // public function register(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), $this->rules());
-
-    //     if ($validator->fails()) {
-    //         return $this->sendError('Validator errors. ', $validator->errors(), 422);
-    //     }
-
-    //     $input = $request->all();
-    //     $input['password'] = bcrypt($input['password']);
-    //     $user = User::create($input);
-    //     $success['token'] =  $user->createToken('RiseProject')->accessToken;
-    //     $success['name'] =  $user->name;
-
-    //     return $this->sendResponse($success, 'User register successfully.');
-    // }
 
     public function login(Request $request)
     {
@@ -53,11 +37,6 @@ class AuthController extends BaseController
 
     public function logout(Request $request)
     {
-        // if ($request->user()) {
-        //     return 'salom';
-        // } else {
-        //     return 'yoq akan';
-        // }
         $request->user()->tokens()->delete();
         return $this->sendResponse('success. ', 'Logout Successfully');
     }
