@@ -38,4 +38,9 @@ class NewsRepository implements NewsRepositoryInterface
     {
         return $this->newsModel->where(['id' => $id])->get();
     }
+
+    public function destroyNews(string $id)
+    {
+        $this->newsModel->where(['id' => $id])->delete();
+    }
 }

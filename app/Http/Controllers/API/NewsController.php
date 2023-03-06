@@ -77,7 +77,8 @@ class NewsController extends BaseController
      */
     public function destroy(string $id)
     {
-        //
+        $this->newsRepository->destroyNews($id);
+        return $this->sendResponse('Delete. ', 'Deleted Successfully');
     }
 
     protected function rules()
