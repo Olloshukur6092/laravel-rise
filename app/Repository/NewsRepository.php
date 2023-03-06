@@ -19,4 +19,23 @@ class NewsRepository implements NewsRepositoryInterface
     {
         return $this->newsModel->get();        
     }
+
+    public function storeNews($title, $description, $image)
+    {
+        $image_name = time() .  '.' . $image->extension();
+        $image_path = $image->storeAs('uploads', $image_name, 'public');
+        $file_path = '/storage/' . $image_path;
+
+        $this->newsModel->create([
+            'title' => $title,
+            'description' => $description,
+            'date' => now(),
+            'image' => $file_path,
+        ]);
+    }
+
+    public function showNews(string $id)
+    {
+        return $this->newsModel->where(['id' => $id])->get();
+    }
 }

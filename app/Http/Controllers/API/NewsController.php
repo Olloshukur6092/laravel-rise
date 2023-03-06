@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BaseController;
 use App\Http\Resources\NewsResource;
 use App\Repository\Interfaces\NewsRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends BaseController
 {
@@ -37,7 +38,13 @@ class NewsController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), $this->rules());
+        if ($validator->fails()) {
+            return $this->sendError('Posted error. ', $validator->errors(), 422);
+        }
+
+        $this->newsRepository->storeNews($request->title, $request->description, $request->file('image'));
+        return $this->sendResponse('success', 'Malumotlar yuklandi.');
     }
 
     /**
@@ -45,7 +52,8 @@ class NewsController extends BaseController
      */
     public function show(string $id)
     {
-        //
+        $news = NewsResource::collection($this->newsRepository->showNews($id));
+        return $this->sendResponse('News.', $news);
     }
 
     /**
@@ -70,5 +78,14 @@ class NewsController extends BaseController
     public function destroy(string $id)
     {
         //
+    }
+
+    protected function rules()
+    {
+        return [
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required|mimes:jpg,jpeg,png',
+        ];
     }
 }
