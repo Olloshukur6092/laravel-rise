@@ -42,7 +42,7 @@ class NewsController extends BaseController
         if ($validator->fails()) {
             return $this->sendError('Posted error. ', $validator->errors(), 422);
         }
-
+        // return $request->all();
         $this->newsRepository->storeNews($request->title, $request->description, $request->file('image'));
         return $this->sendResponse('success', 'Malumotlar yuklandi.');
     }
@@ -69,7 +69,13 @@ class NewsController extends BaseController
      */
     public function update(Request $request, string $id)
     {
-        //
+        // $validator = Validator::make($request->all(), $this->rules());
+        // if ($validator->fails()) {
+        //     return $this->sendError('error. ', $validator->errors(), 422);
+        // }
+        return $request;
+        // $this->newsRepository->updateNews($request->title, $request->description, $request->file('image'), $id);
+        // return $this->sendResponse('update.', 'Updated successfully.');
     }
 
     /**
